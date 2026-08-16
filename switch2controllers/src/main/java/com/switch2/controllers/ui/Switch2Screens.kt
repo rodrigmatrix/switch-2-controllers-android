@@ -203,6 +203,28 @@ fun Switch2ControllersScreen(
 }
 
 @Composable
+fun rememberControllerColor(context: Context, address: String, productId: Int): String {
+    var color by remember(address, productId) {
+        mutableStateOf(Switch2ControllerMappings.getControllerColor(context, address, productId))
+    }
+
+    DisposableEffect(address, productId) {
+        val prefs = Switch2ControllerMappings.getPrefs(context)
+        val listener = android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == null || key.contains(address.replace(":", "").lowercase())) {
+                color = Switch2ControllerMappings.getControllerColor(context, address, productId)
+            }
+        }
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+        onDispose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    return color
+}
+
+@Composable
 fun ControllerItemRow(
     address: String,
     name: String,
@@ -215,7 +237,8 @@ fun ControllerItemRow(
     onForget: () -> Unit
 ) {
     val context = LocalContext.current
-    val iconRes = Switch2ControllerMappings.getControllerDrawableRes(context, address, productId)
+    val controllerColor = rememberControllerColor(context, address, productId)
+    val iconRes = Switch2ControllerMappings.getDrawableResForColor(controllerColor, productId)
 
     Card(
         modifier = Modifier
@@ -426,7 +449,7 @@ fun Switch2SettingsScreen(
         mutableStateOf(Switch2ControllerMappings.getControllerColor(context, address, productId))
     }
     val iconRes = remember(selectedColor) {
-        Switch2ControllerMappings.getControllerDrawableRes(context, address, productId)
+        Switch2ControllerMappings.getDrawableResForColor(selectedColor, productId)
     }
     var stickSensitivity by remember {
         mutableStateOf(Switch2ControllerMappings.stickSensitivity(context, address))

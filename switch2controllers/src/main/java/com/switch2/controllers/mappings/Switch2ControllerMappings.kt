@@ -237,8 +237,7 @@ object Switch2ControllerMappings {
         return if (isLeft) Switch2Constants.COLOR_PURPLE else Switch2Constants.COLOR_GREEN
     }
 
-    fun getControllerDrawableRes(context: Context, address: String, productId: Int): Int {
-        val color = getControllerColor(context, address, productId)
+    fun getDrawableResForColor(color: String, productId: Int): Int {
         return when {
             Switch2Constants.isProController(productId) -> R.drawable.ic_controller_pro_2
             Switch2Constants.isJoyConLeft(productId) -> {
@@ -261,6 +260,11 @@ object Switch2ControllerMappings {
             }
             else -> R.drawable.ic_controller_pro_2
         }
+    }
+
+    fun getControllerDrawableRes(context: Context, address: String, productId: Int): Int {
+        val color = getControllerColor(context, address, productId)
+        return getDrawableResForColor(color, productId)
     }
 
     fun combineJoyCons(context: Context): Boolean {
@@ -322,7 +326,7 @@ object Switch2ControllerMappings {
         }
     }
 
-    private fun getPrefs(context: Context): SharedPreferences {
+    fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
