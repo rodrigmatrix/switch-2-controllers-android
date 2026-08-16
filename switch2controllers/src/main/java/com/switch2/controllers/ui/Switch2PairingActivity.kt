@@ -249,7 +249,6 @@ class Switch2PairingActivity : ComponentActivity() {
                     productId
                 )
 
-                startService(Intent(this@Switch2PairingActivity, Switch2BleDriverService::class.java))
                 Toast.makeText(this@Switch2PairingActivity, "Paired successfully with $controllerName!", Toast.LENGTH_SHORT).show()
                 finish()
             }

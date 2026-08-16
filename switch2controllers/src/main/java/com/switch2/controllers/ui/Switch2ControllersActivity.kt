@@ -89,6 +89,8 @@ class Switch2ControllersActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         switch2Manager.removeListener(controllerListener)
+        switch2Manager.stop()
+        stopService(Intent(this, Switch2BleDriverService::class.java))
     }
 
     private fun refreshState() {
