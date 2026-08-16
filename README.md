@@ -24,7 +24,9 @@ A standalone, high-performance Android library that brings full native support f
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="screenshots/controller_settings.jpg" width="300" alt="Controller Settings & Button Mapping" />
+  <img src="screenshots/controllers_list.jpg" width="340" alt="Switch 2 Controllers List & Joy-Con Pair Management" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="screenshots/controller_settings.jpg" width="340" alt="Controller Settings & Button Mapping" />
 </p>
 
 ---
