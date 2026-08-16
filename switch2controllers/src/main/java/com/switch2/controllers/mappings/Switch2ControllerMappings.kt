@@ -213,14 +213,14 @@ object Switch2ControllerMappings {
     }
 
     fun colorNameFromRgb(r: Int, g: Int, b: Int, isLeft: Boolean): String {
-        // Purple / Indigo: high blue & red, lower green (e.g. #A366CC / #8B6EB8)
-        if (r > 90 && b > 130 && g < b - 15) return Switch2Constants.COLOR_PURPLE
-        // Green: high green (e.g. #74D162 / #00E676 / #8AE08A / #A8F0A8)
+        // Blue / Neon Cyan (e.g. #0AB9E6, #00B3E6)
+        if (b > 150 && b > r + 50) return Switch2Constants.COLOR_BLUE
+        // Green / Neon Green (e.g. #80CD57, #74D162, #00E676)
         if (g > 130 && g > r + 15 && g > b + 15) return Switch2Constants.COLOR_GREEN
-        // Blue / Neon Blue: high blue / cyan (e.g. #0AB9E6 / #00B3E6)
-        if (b > 150 && b > r + 30) return Switch2Constants.COLOR_BLUE
-        // Red / Neon Red: high red (e.g. #FF3C28 / #E60012)
-        if (r > 150 && r > g + 30 && r > b + 30) return Switch2Constants.COLOR_RED
+        // Purple / Plum / Magenta (e.g. #B3042F, #8B004F, #8B6EB8, #A366CC)
+        if ((r > 120 && g < 30 && b >= 20) || (r > 90 && b > 120 && g < b - 15)) return Switch2Constants.COLOR_PURPLE
+        // Red / Neon Red (e.g. #FF3C28, #E60012, #FF4500)
+        if (r > 160 && (g >= 30 || r > 210) && r > g + 40 && r > b + 40) return Switch2Constants.COLOR_RED
         return if (isLeft) Switch2Constants.COLOR_PURPLE else Switch2Constants.COLOR_GREEN
     }
 
@@ -232,6 +232,8 @@ object Switch2ControllerMappings {
                 when (color) {
                     Switch2Constants.COLOR_PURPLE -> R.drawable.ic_joycon_2_left_purple
                     Switch2Constants.COLOR_BLUE -> R.drawable.ic_joycon_2_left_blue
+                    Switch2Constants.COLOR_RED -> R.drawable.ic_joycon_2_left_red
+                    Switch2Constants.COLOR_GREEN -> R.drawable.ic_joycon_2_left_green
                     else -> R.drawable.ic_joycon_2_left_purple
                 }
             }
@@ -239,6 +241,8 @@ object Switch2ControllerMappings {
                 when (color) {
                     Switch2Constants.COLOR_GREEN -> R.drawable.ic_joycon_2_right_green
                     Switch2Constants.COLOR_RED -> R.drawable.ic_joycon_2_right_red
+                    Switch2Constants.COLOR_BLUE -> R.drawable.ic_joycon_2_right_blue
+                    Switch2Constants.COLOR_PURPLE -> R.drawable.ic_joycon_2_right_purple
                     else -> R.drawable.ic_joycon_2_right_green
                 }
             }

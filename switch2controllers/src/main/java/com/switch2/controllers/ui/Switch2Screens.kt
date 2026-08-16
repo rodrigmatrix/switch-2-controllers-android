@@ -421,8 +421,13 @@ fun Switch2SettingsScreen(
     val context = LocalContext.current
     val controllerName = remember { Switch2ControllerMappings.controllerName(context, address) }
     val productId = remember { Switch2ControllerMappings.controllerProductId(context, address) }
-    val iconRes = remember { Switch2ControllerMappings.getControllerDrawableRes(context, address, productId) }
     val sources = remember { Switch2ControllerMappings.sourceButtons(context, address) }
+    var selectedColor by remember {
+        mutableStateOf(Switch2ControllerMappings.getControllerColor(context, address, productId))
+    }
+    val iconRes = remember(selectedColor) {
+        Switch2ControllerMappings.getControllerDrawableRes(context, address, productId)
+    }
     var stickSensitivity by remember {
         mutableStateOf(Switch2ControllerMappings.stickSensitivity(context, address))
     }
@@ -475,6 +480,43 @@ fun Switch2SettingsScreen(
                 Column {
                     Text(text = controllerName, style = MaterialTheme.typography.titleLarge)
                     Text(text = address, style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+
+            if (Switch2Constants.isJoyCon(productId)) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(text = "Joy-Con Color", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val availableColors = listOf(
+                    Triple(Switch2Constants.COLOR_BLUE, "Blue", androidx.compose.ui.graphics.Color(0xFF0AB9E6)),
+                    Triple(Switch2Constants.COLOR_RED, "Red", androidx.compose.ui.graphics.Color(0xFFFF3C28)),
+                    Triple(Switch2Constants.COLOR_PURPLE, "Purple", androidx.compose.ui.graphics.Color(0xFFA366CC)),
+                    Triple(Switch2Constants.COLOR_GREEN, "Green", androidx.compose.ui.graphics.Color(0xFF74D162)),
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    availableColors.forEach { (colorKey, label, colorVal) ->
+                        val isSelected = selectedColor == colorKey
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = {
+                                selectedColor = colorKey
+                                Switch2ControllerMappings.setControllerColor(context, address, colorKey)
+                            },
+                            label = { Text(label) },
+                            leadingIcon = {
+                                Box(
+                                    modifier = Modifier
+                                        .size(12.dp)
+                                        .background(colorVal, shape = CircleShape)
+                                )
+                            }
+                        )
+                    }
                 }
             }
 
