@@ -21,6 +21,14 @@ A standalone, high-performance Android library that brings full native support f
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/controller_settings.jpg" width="300" alt="Controller Settings & Button Mapping" />
+</p>
+
+---
+
 ## 📦 Installation
 
 ### Gradle (Module Dependency or Composite Build)
