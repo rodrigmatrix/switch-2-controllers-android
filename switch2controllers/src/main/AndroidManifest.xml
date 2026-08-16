@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application>
+        <service
+            android:name="com.switch2.controllers.service.Switch2BleDriverService"
+            android:label="Switch 2 Controller BLE Driver Service"
+            android:exported="false" />
+
+        <activity
+            android:name="com.switch2.controllers.ui.Switch2ControllersActivity"
+            android:label="Switch 2 Controllers"
+            android:exported="true" />
+
+        <activity
+            android:name="com.switch2.controllers.ui.Switch2PairingActivity"
+            android:label="Pair Switch 2 Controller"
+            android:exported="true" />
+
+        <activity
+            android:name="com.switch2.controllers.ui.Switch2SettingsActivity"
+            android:label="Switch 2 Controller Settings"
+            android:exported="true" />
+    </application>
+
+</manifest>
