@@ -191,12 +191,25 @@ object Switch2ControllerMappings {
         return getPrefs(context).getInt(productIdKey(address), Switch2Constants.PRODUCT_PRO_CONTROLLER_2)
     }
 
-    fun setControllerColor(context: Context, address: String, colorName: String, rgbHex: String? = null) {
+    fun setControllerColor(
+        context: Context,
+        address: String,
+        colorName: String,
+        rgbHex: String? = null,
+        isUserManual: Boolean = false,
+    ) {
         val editor = getPrefs(context).edit().putString(colorKey(address), colorName)
         if (rgbHex != null) {
             editor.putString(colorHexKey(address), rgbHex)
         }
+        if (isUserManual) {
+            editor.putBoolean(userColorOverrideKey(address), true)
+        }
         editor.apply()
+    }
+
+    fun isUserColorOverride(context: Context, address: String): Boolean {
+        return getPrefs(context).getBoolean(userColorOverrideKey(address), false)
     }
 
     fun getControllerColor(context: Context, address: String, productId: Int): String {
@@ -339,6 +352,7 @@ object Switch2ControllerMappings {
 
     private fun colorKey(address: String): String = "switch2_${address.safeKey()}_color"
     private fun colorHexKey(address: String): String = "switch2_${address.safeKey()}_color_hex"
+    private fun userColorOverrideKey(address: String): String = "switch2_${address.safeKey()}_user_color_override"
 
     private fun String.safeKey(): String = replace(":", "").lowercase()
 }

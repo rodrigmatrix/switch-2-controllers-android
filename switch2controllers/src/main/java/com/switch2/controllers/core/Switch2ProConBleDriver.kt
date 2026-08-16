@@ -243,6 +243,8 @@ class Switch2ProConBleDriver(
                 }
             }
 
+            Switch2Log.i("${driverName()}: Memory read 0x${calAddress.toString(16)} (size=${response.size}): ${response.toHexPreview(response.size)}")
+
             if (calAddress == Switch2Constants.CALIBRATION_COLOR_FACTORY ||
                 calAddress == Switch2Constants.CALIBRATION_COLOR_SWITCH2 ||
                 calAddress == Switch2Constants.CALIBRATION_COLOR_USER
@@ -255,7 +257,9 @@ class Switch2ProConBleDriver(
                         val rgbHex = String.format("#%02X%02X%02X", r, g, b)
                         val colorName = Switch2ControllerMappings.colorNameFromRgb(r, g, b, isJoyConLeft())
                         Switch2Log.i("${driverName()}: Detected controller body color: $colorName ($rgbHex, R=$r, G=$g, B=$b)")
-                        Switch2ControllerMappings.setControllerColor(context, address, colorName, rgbHex)
+                        if (!Switch2ControllerMappings.isUserColorOverride(context, address)) {
+                            Switch2ControllerMappings.setControllerColor(context, address, colorName, rgbHex)
+                        }
                     }
                 }
             }
@@ -451,6 +455,18 @@ class Switch2ProConBleDriver(
                 ((Switch2Constants.CALIBRATION_COLOR_SWITCH2 shr 8) and 0xff).toByte(),
                 ((Switch2Constants.CALIBRATION_COLOR_SWITCH2 shr 16) and 0xff).toByte(),
                 ((Switch2Constants.CALIBRATION_COLOR_SWITCH2 shr 24) and 0xff).toByte(),
+            )
+        )
+
+        enqueueCommand(
+            Switch2Constants.COMMAND_MEMORY,
+            Switch2Constants.SUBCOMMAND_MEMORY_READ,
+            byteArrayOf(
+                0x0b, 0x7e, 0x00, 0x00,
+                (Switch2Constants.CALIBRATION_COLOR_USER and 0xff).toByte(),
+                ((Switch2Constants.CALIBRATION_COLOR_USER shr 8) and 0xff).toByte(),
+                ((Switch2Constants.CALIBRATION_COLOR_USER shr 16) and 0xff).toByte(),
+                ((Switch2Constants.CALIBRATION_COLOR_USER shr 24) and 0xff).toByte(),
             )
         )
 

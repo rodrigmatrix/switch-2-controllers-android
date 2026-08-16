@@ -505,7 +505,7 @@ fun Switch2SettingsScreen(
                             selected = isSelected,
                             onClick = {
                                 selectedColor = colorKey
-                                Switch2ControllerMappings.setControllerColor(context, address, colorKey)
+                                Switch2ControllerMappings.setControllerColor(context, address, colorKey, isUserManual = true)
                             },
                             label = { Text(label) },
                             leadingIcon = {
